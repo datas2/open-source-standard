@@ -1,0 +1,61 @@
+name: "Run tests"
+
+on:
+  pull_request:
+    branches:
+      - master
+  push:
+    branches:
+      - master
+
+jobs:
+  tests:
+    name: "Unit, integration and e2e tests"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v7
+
+      - name: "Set up Python"
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: "Install uv"
+        run: |
+          python -m pip install --upgrade pip
+          pip install uv
+
+      - name: "Install project dependencies with uv"
+        run: |
+          # Sync dependencies as defined in pyproject.toml.
+          # We don't pass --all-extras/--dev because this project does not define those groups.
+          uv sync
+
+      - name: "Run unit tests"
+        run: |
+          if [ -d backend/tests/unit ]; then
+            uv run pytest backend/tests/unit
+          else
+            echo "No unit tests found in backend/tests/unit, skipping."
+          fi
+
+      - name: "Run integration tests"
+        run: |
+          if [ -d backend/tests/integration ]; then
+            uv run pytest backend/tests/integration
+          else
+            echo "No integration tests found in backend/tests/integration, skipping."
+          fi
+
+      # E2E tests are currently disabled in CI because they require
+      # starting a real HTTP server via subprocess, which can be flaky
+      # in ephemeral runners. Re-enable when we have a stable setup.
+      # - name: "Run e2e tests"
+      #   run: |
+      #     if [ -d backend/tests/e2e ]; then
+      #       uv run pytest backend/tests/e2e
+      #     else
+      #       echo "No e2e tests found in backend/tests/e2e, skipping."
+      #     fi
