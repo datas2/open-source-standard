@@ -1,0 +1,11 @@
+# DEV requirements 
+pytest
+
+# Main dependencies
+fastapi
+httpx
+pydantic
+python-dotenv
+sqlalchemy
+streamlit
+uvicorn

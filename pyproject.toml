@@ -1,0 +1,57 @@
+[project]
+name = "open-source-standard"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Augusto Machado", email = "augustomachadoramos@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.141.1",
+    "httpx>=0.28.1",
+    "pydantic>=2.13.5",
+    "pytest>=9.1.1",
+    "python-dotenv>=1.2.3",
+    "sqlalchemy>=2.0.52",
+    "streamlit>=1.62.0",
+    "uvicorn>=0.52.4",
+]
+
+[project.scripts]
+open-source-standard = "open_source_standard:main"
+
+[build-system]
+requires = ["uv_build>=0.12.7,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = [
+    "backend",
+    "backend.*",
+    "frontend",
+    "frontend.*",
+]
+exclude = [
+    "architecture",
+    "architecture.*",
+    "assets",
+    "assets.*",
+    "benchmark",
+    "benchmark.*",
+    "config",
+    "config.*",
+    "docs",
+    "docs.*",
+    "examples",
+    "examples.*",
+    "infra",
+    "infra.*",
+    "observability",
+    "observability.*",
+    "scripts",
+    "scripts.*",
+    "src",
+    "src.*",
+]
